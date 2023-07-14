@@ -1,4 +1,4 @@
-{% set version = "0.4.5" %}
+{% set version = "0.4.6" %}
 
 package:
   name: logical-unification
@@ -6,21 +6,21 @@ package:
 
 source:
   url: https://pypi.io/packages/source/l/logical-unification/logical-unification-{{ version }}.tar.gz
-  sha256: 7c6a6c1b7c6baa0f5b9af93f06cfc8d2419b6b793346b678ed1367c05ce74558
+  sha256: 908435123f8a106fa4dcf9bf1b75c7beb309fa2bbecf277868af8f1c212650a0
   patches:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   noarch: python
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
     - setuptools
   run:
-    - python >=3.6
+    - python
     - toolz
     - multipledispatch
 
@@ -31,9 +31,14 @@ test:
 about:
   home: https://github.com/pythological/unification
   license: BSD-3-Clause
-  summary: Logical unification in Python.
+  license_family: BSD
   license_file: LICENSE.txt
+  summary: Logical unification in Python.
+  description: |
+    Straightforward Unification, extensible via dispatch. This project has been forked from
+    https://github.com/mrocklin/unification/.
   dev_url: https://github.com/pythological/unification
+  doc_url: https://github.com/pythological/unification/
 
 extra:
   recipe-maintainers:
