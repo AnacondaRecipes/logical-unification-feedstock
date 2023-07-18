@@ -21,7 +21,8 @@ requirements:
     - wheel
   run:
     - python
-    - versioneer
+    - toolz
+    - multipledispatch
 
 test:
   imports:
