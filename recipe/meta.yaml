@@ -1,36 +1,48 @@
-{% set version = "0.4.6" %}
+{% set version = "0.4.7" %}
+{% set name = "logical-unification" %}
 
 package:
-  name: logical-unification
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/l/logical-unification/logical-unification-{{ version }}.tar.gz
-  sha256: 908435123f8a106fa4dcf9bf1b75c7beb309fa2bbecf277868af8f1c212650a0
-  patches:
+  url: https://github.com/pythological/unification/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 82fd074925ed0ba7674228a4c9a07611ab90e55ba1e266a9d24811ab5656618d
 
 build:
+  skip: true  # [py<39]
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
     - pip
     - python
-    - setuptools
-    - wheel
+    - setuptools >=80.0.0
+    - setuptools-scm
   run:
     - python
     - toolz
     - multipledispatch
 
 test:
+  source_files:
+    - tests
   imports:
     - unification
+    - unification.core
+    - unification.match
+    - unification.more
+    - unification.utils
+    - unification.variable
   requires:
     - pip
+    - pytest
+    - pytest-benchmark
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests
 
 about:
   home: https://github.com/pythological/unification
@@ -40,9 +52,9 @@ about:
   summary: Logical unification in Python.
   description: |
     Straightforward Unification, extensible via dispatch. This project has been forked from
-    https://github.com/mrocklin/unification/.
+    https://github.com/mrocklin/unification.
   dev_url: https://github.com/pythological/unification
-  doc_url: https://github.com/pythological/unification/
+  doc_url: https://github.com/pythological/unification
 
 extra:
   recipe-maintainers:
